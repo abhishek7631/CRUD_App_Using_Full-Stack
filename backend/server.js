@@ -31,6 +31,19 @@ app.post("/create", (req, res) => {
   });
 });
 
+app.put("/update", (req, res) => {
+  const q =
+    "update student set `Name`=?, `Email`=? ,`Age`=? ,`Status`=? where id = ?";
+  const values = [req.body.name, req.body.email, req.body.age, req.body.status];
+
+  const id = req.params.id;
+
+  db.query(q, [...values, id], (err, result) => {
+    if (err) return res.json("Error");
+    return res.json(result);
+  });
+});
+
 app.listen(8181, () => {
   console.log("server is listining on port 8080");
 });
