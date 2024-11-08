@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Student() {
+  const [student, setStudent] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:8181/")
-      .then((res) => console.log(res))
+      .then((res) => setStudent(res.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -21,9 +23,26 @@ export default function Student() {
               <th>Email</th>
               <th>Age</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {student.map((data, i) => {
+              return (
+                <tr key={i}>
+                  <td>{data.ID}</td>
+                  <td>{data.Name}</td>
+                  <td>{data.Email}</td>
+                  <td>{data.Age}</td>
+                  <td>{data.Status}</td>
+                  <td>
+                    <button className="btn btn-primary">Update</button>
+                    <button className="btn btn-danger ms-2">Delete</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </div>
